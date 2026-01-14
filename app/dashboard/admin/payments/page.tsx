@@ -85,39 +85,41 @@ export default function AdminPaymentsPage() {
                     <CardTitle className="text-lg text-slate-900">Recent Transactions</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow className="border-slate-200 hover:bg-slate-50">
-                                <TableHead className="text-slate-500">Transaction ID</TableHead>
-                                <TableHead className="text-slate-500">User / Entity</TableHead>
-                                <TableHead className="text-slate-500">Date</TableHead>
-                                <TableHead className="text-slate-500">Method</TableHead>
-                                <TableHead className="text-slate-500">Status</TableHead>
-                                <TableHead className="text-right text-slate-500">Amount</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {transactions.map((trx) => (
-                                <TableRow key={trx.id} className="border-slate-100 hover:bg-slate-50">
-                                    <TableCell className="font-mono text-xs text-slate-600">{trx.id}</TableCell>
-                                    <TableCell className="font-medium text-slate-900">{trx.user}</TableCell>
-                                    <TableCell className="text-slate-600">{trx.date}</TableCell>
-                                    <TableCell className="text-slate-600">{trx.method}</TableCell>
-                                    <TableCell>
-                                        <Badge variant="outline" className={
-                                            trx.status === "Completed" ? "bg-green-100 text-green-700 border-green-200" :
-                                                trx.status === "Processing" ? "bg-yellow-100 text-yellow-700 border-yellow-200" : ""
-                                        }>
-                                            {trx.status}
-                                        </Badge>
-                                    </TableCell>
-                                    <TableCell className={`text-right font-medium ${trx.amount.startsWith('-') ? 'text-red-600' : 'text-emerald-600'}`}>
-                                        {trx.amount}
-                                    </TableCell>
+                    <div className="overflow-x-auto">
+                        <Table>
+                            <TableHeader>
+                                <TableRow className="border-slate-200 hover:bg-slate-50">
+                                    <TableHead className="text-slate-500">Transaction ID</TableHead>
+                                    <TableHead className="text-slate-500">User / Entity</TableHead>
+                                    <TableHead className="text-slate-500">Date</TableHead>
+                                    <TableHead className="text-slate-500">Method</TableHead>
+                                    <TableHead className="text-slate-500">Status</TableHead>
+                                    <TableHead className="text-right text-slate-500">Amount</TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {transactions.map((trx) => (
+                                    <TableRow key={trx.id} className="border-slate-100 hover:bg-slate-50">
+                                        <TableCell className="font-mono text-xs text-slate-600">{trx.id}</TableCell>
+                                        <TableCell className="font-medium text-slate-900">{trx.user}</TableCell>
+                                        <TableCell className="text-slate-600">{trx.date}</TableCell>
+                                        <TableCell className="text-slate-600">{trx.method}</TableCell>
+                                        <TableCell>
+                                            <Badge variant="outline" className={
+                                                trx.status === "Completed" ? "bg-green-100 text-green-700 border-green-200" :
+                                                    trx.status === "Processing" ? "bg-yellow-100 text-yellow-700 border-yellow-200" : ""
+                                            }>
+                                                {trx.status}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className={`text-right font-medium ${trx.amount.startsWith('-') ? 'text-red-600' : 'text-emerald-600'}`}>
+                                            {trx.amount}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
                 </CardContent>
             </Card>
         </div>

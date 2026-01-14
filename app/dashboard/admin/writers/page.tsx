@@ -67,74 +67,76 @@ export default function WritersPage() {
                     <CardTitle className="text-lg text-slate-900">Writer Roster</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow className="border-slate-200 hover:bg-slate-50">
-                                <TableHead className="text-slate-500">Name</TableHead>
-                                <TableHead className="text-slate-500">Expertise</TableHead>
-                                <TableHead className="text-slate-500">Active Orders</TableHead>
-                                <TableHead className="text-slate-500">Rating</TableHead>
-                                <TableHead className="text-slate-500">Status</TableHead>
-                                <TableHead className="text-slate-500 text-right">Total Earnings</TableHead>
-                                <TableHead className="text-right text-slate-500">Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {writers.map((writer) => (
-                                <TableRow key={writer.id} className="border-slate-100 hover:bg-slate-50">
-                                    <TableCell>
-                                        <div className="flex items-center gap-3">
-                                            <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200">
-                                                <User className="h-4 w-4 text-slate-400" />
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <span className="font-medium text-slate-900">{writer.name}</span>
-                                                <span className="text-xs text-slate-500">{writer.email}</span>
-                                            </div>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell className="text-slate-700">{writer.expertise}</TableCell>
-                                    <TableCell className="text-center text-slate-700">{writer.activeOrders}</TableCell>
-                                    <TableCell>
-                                        <div className="flex items-center text-amber-500">
-                                            <Star className="h-3 w-3 fill-current mr-1" />
-                                            <span className="text-sm font-medium">{writer.rating}</span>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Badge variant="outline" className={
-                                            writer.status === "Active" ? "bg-green-100 text-green-700 border-green-200" : "bg-slate-100 text-slate-600 border-slate-200"
-                                        }>
-                                            {writer.status}
-                                        </Badge>
-                                    </TableCell>
-                                    <TableCell className="text-right font-mono text-slate-900 font-medium">
-                                        {writer.earnings}
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" size="icon" className="hover:bg-slate-100 text-slate-500">
-                                                    <MoreHorizontal className="h-4 w-4" />
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end" className="bg-white border-slate-200 text-slate-700">
-                                                <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer">
-                                                    View Profile
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer">
-                                                    Manage Payouts
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer text-red-600">
-                                                    Suspend Account
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </TableCell>
+                    <div className="overflow-x-auto">
+                        <Table>
+                            <TableHeader>
+                                <TableRow className="border-slate-200 hover:bg-slate-50">
+                                    <TableHead className="text-slate-500">Name</TableHead>
+                                    <TableHead className="text-slate-500">Expertise</TableHead>
+                                    <TableHead className="text-slate-500">Active Orders</TableHead>
+                                    <TableHead className="text-slate-500">Rating</TableHead>
+                                    <TableHead className="text-slate-500">Status</TableHead>
+                                    <TableHead className="text-slate-500 text-right">Total Earnings</TableHead>
+                                    <TableHead className="text-right text-slate-500">Actions</TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {writers.map((writer) => (
+                                    <TableRow key={writer.id} className="border-slate-100 hover:bg-slate-50">
+                                        <TableCell>
+                                            <div className="flex items-center gap-3">
+                                                <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200">
+                                                    <User className="h-4 w-4 text-slate-400" />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className="font-medium text-slate-900">{writer.name}</span>
+                                                    <span className="text-xs text-slate-500">{writer.email}</span>
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className="text-slate-700">{writer.expertise}</TableCell>
+                                        <TableCell className="text-center text-slate-700">{writer.activeOrders}</TableCell>
+                                        <TableCell>
+                                            <div className="flex items-center text-amber-500">
+                                                <Star className="h-3 w-3 fill-current mr-1" />
+                                                <span className="text-sm font-medium">{writer.rating}</span>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Badge variant="outline" className={
+                                                writer.status === "Active" ? "bg-green-100 text-green-700 border-green-200" : "bg-slate-100 text-slate-600 border-slate-200"
+                                            }>
+                                                {writer.status}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className="text-right font-mono text-slate-900 font-medium">
+                                            {writer.earnings}
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="ghost" size="icon" className="hover:bg-slate-100 text-slate-500">
+                                                        <MoreHorizontal className="h-4 w-4" />
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end" className="bg-white border-slate-200 text-slate-700">
+                                                    <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer">
+                                                        View Profile
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer">
+                                                        Manage Payouts
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer text-red-600">
+                                                        Suspend Account
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
                 </CardContent>
             </Card>
         </div>

@@ -134,76 +134,78 @@ export default function AdminOrdersPage() {
                             No orders found matching your search.
                         </div>
                     ) : (
-                        <Table>
-                            <TableHeader>
-                                <TableRow className="border-slate-200 hover:bg-slate-50">
-                                    <TableHead className="text-slate-500">Order ID</TableHead>
-                                    <TableHead className="text-slate-500">Student</TableHead>
-                                    <TableHead className="text-slate-500">Topic / Subject</TableHead>
-                                    <TableHead className="text-slate-500">Deadline</TableHead>
-                                    <TableHead className="text-slate-500">Status</TableHead>
-                                    <TableHead className="text-slate-500 text-right">Amount</TableHead>
-                                    <TableHead className="text-right text-slate-500">Actions</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {filteredOrders.map((order) => (
-                                    <TableRow key={order._id} className="border-slate-100 hover:bg-slate-50">
-                                        <TableCell className="font-mono text-xs text-slate-600">
-                                            #{order._id.slice(-6).toUpperCase()}
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="flex items-center gap-2">
-                                                <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200">
-                                                    <UserCircle className="h-5 w-5 text-slate-400" />
-                                                </div>
-                                                <div className="flex flex-col">
-                                                    <span className="text-sm font-medium text-slate-900">{order.userId?.name || "Unknown"}</span>
-                                                    <span className="text-xs text-slate-500">{order.userId?.email}</span>
-                                                </div>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="flex flex-col">
-                                                <span className="font-medium text-slate-900">{order.subject}</span>
-                                                <span className="text-xs text-slate-500 truncate max-w-[180px]">{order.topic || "General"}</span>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <div className="text-sm text-slate-700">
-                                                {order.deadline ? format(new Date(order.deadline), "MMM d, yyyy") : "N/A"}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            {getStatusBadge(order.status)}
-                                        </TableCell>
-                                        <TableCell className="text-right font-medium text-slate-900">
-                                            ${order.price}
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button variant="ghost" size="icon" className="hover:bg-slate-100 text-slate-500">
-                                                        <MoreHorizontal className="h-4 w-4" />
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end" className="bg-white border-slate-200 text-slate-700">
-                                                    <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer">
-                                                        View Details
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer">
-                                                        Assign Writer
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer text-emerald-600 font-medium">
-                                                        Mark Completed
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
-                                        </TableCell>
+                        <div className="overflow-x-auto">
+                            <Table>
+                                <TableHeader>
+                                    <TableRow className="border-slate-200 hover:bg-slate-50">
+                                        <TableHead className="text-slate-500">Order ID</TableHead>
+                                        <TableHead className="text-slate-500">Student</TableHead>
+                                        <TableHead className="text-slate-500">Topic / Subject</TableHead>
+                                        <TableHead className="text-slate-500">Deadline</TableHead>
+                                        <TableHead className="text-slate-500">Status</TableHead>
+                                        <TableHead className="text-slate-500 text-right">Amount</TableHead>
+                                        <TableHead className="text-right text-slate-500">Actions</TableHead>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                                </TableHeader>
+                                <TableBody>
+                                    {filteredOrders.map((order) => (
+                                        <TableRow key={order._id} className="border-slate-100 hover:bg-slate-50">
+                                            <TableCell className="font-mono text-xs text-slate-600">
+                                                #{order._id.slice(-6).toUpperCase()}
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="flex items-center gap-2">
+                                                    <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200">
+                                                        <UserCircle className="h-5 w-5 text-slate-400" />
+                                                    </div>
+                                                    <div className="flex flex-col">
+                                                        <span className="text-sm font-medium text-slate-900">{order.userId?.name || "Unknown"}</span>
+                                                        <span className="text-xs text-slate-500">{order.userId?.email}</span>
+                                                    </div>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="flex flex-col">
+                                                    <span className="font-medium text-slate-900">{order.subject}</span>
+                                                    <span className="text-xs text-slate-500 truncate max-w-[180px]">{order.topic || "General"}</span>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="text-sm text-slate-700">
+                                                    {order.deadline ? format(new Date(order.deadline), "MMM d, yyyy") : "N/A"}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>
+                                                {getStatusBadge(order.status)}
+                                            </TableCell>
+                                            <TableCell className="text-right font-medium text-slate-900">
+                                                ${order.price}
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button variant="ghost" size="icon" className="hover:bg-slate-100 text-slate-500">
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end" className="bg-white border-slate-200 text-slate-700">
+                                                        <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer">
+                                                            View Details
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer">
+                                                            Assign Writer
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer text-emerald-600 font-medium">
+                                                            Mark Completed
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </div>
                     )}
                 </CardContent>
             </Card>

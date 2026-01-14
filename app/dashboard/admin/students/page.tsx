@@ -65,61 +65,63 @@ export default function StudentsPage() {
                     <CardTitle className="text-lg text-slate-900">Registered Students</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow className="border-slate-200 hover:bg-slate-50">
-                                <TableHead className="text-slate-500">Name</TableHead>
-                                <TableHead className="text-slate-500">University</TableHead>
-                                <TableHead className="text-slate-500">Total Orders</TableHead>
-                                <TableHead className="text-slate-500">Total Spent</TableHead>
-                                <TableHead className="text-slate-500">Status</TableHead>
-                                <TableHead className="text-right text-slate-500">Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {students.map((student) => (
-                                <TableRow key={student.id} className="border-slate-100 hover:bg-slate-50">
-                                    <TableCell>
-                                        <div className="flex items-center gap-3">
-                                            <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200">
-                                                <GraduationCap className="h-4 w-4 text-slate-400" />
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <span className="font-medium text-slate-900">{student.name}</span>
-                                                <span className="text-xs text-slate-500 flex items-center gap-1">
-                                                    <Mail className="h-3 w-3" /> {student.email}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell className="text-slate-700">{student.university}</TableCell>
-                                    <TableCell className="text-slate-700">{student.orders}</TableCell>
-                                    <TableCell className="text-emerald-600 font-medium">{student.spent}</TableCell>
-                                    <TableCell>
-                                        <Badge variant="outline" className={
-                                            student.status === "Active" ? "bg-blue-100 text-blue-700 border-blue-200" : "bg-slate-100 text-slate-600 border-slate-200"
-                                        }>
-                                            {student.status}
-                                        </Badge>
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" size="icon" className="hover:bg-slate-100 text-slate-500">
-                                                    <MoreHorizontal className="h-4 w-4" />
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end" className="bg-white border-slate-200 text-slate-700">
-                                                <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer">View Profile</DropdownMenuItem>
-                                                <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer">Order History</DropdownMenuItem>
-                                                <DropdownMenuItem className="text-red-600 hover:bg-slate-50 cursor-pointer">Block Account</DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </TableCell>
+                    <div className="overflow-x-auto">
+                        <Table>
+                            <TableHeader>
+                                <TableRow className="border-slate-200 hover:bg-slate-50">
+                                    <TableHead className="text-slate-500">Name</TableHead>
+                                    <TableHead className="text-slate-500">University</TableHead>
+                                    <TableHead className="text-slate-500">Total Orders</TableHead>
+                                    <TableHead className="text-slate-500">Total Spent</TableHead>
+                                    <TableHead className="text-slate-500">Status</TableHead>
+                                    <TableHead className="text-right text-slate-500">Actions</TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {students.map((student) => (
+                                    <TableRow key={student.id} className="border-slate-100 hover:bg-slate-50">
+                                        <TableCell>
+                                            <div className="flex items-center gap-3">
+                                                <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200">
+                                                    <GraduationCap className="h-4 w-4 text-slate-400" />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className="font-medium text-slate-900">{student.name}</span>
+                                                    <span className="text-xs text-slate-500 flex items-center gap-1">
+                                                        <Mail className="h-3 w-3" /> {student.email}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className="text-slate-700">{student.university}</TableCell>
+                                        <TableCell className="text-slate-700">{student.orders}</TableCell>
+                                        <TableCell className="text-emerald-600 font-medium">{student.spent}</TableCell>
+                                        <TableCell>
+                                            <Badge variant="outline" className={
+                                                student.status === "Active" ? "bg-blue-100 text-blue-700 border-blue-200" : "bg-slate-100 text-slate-600 border-slate-200"
+                                            }>
+                                                {student.status}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="ghost" size="icon" className="hover:bg-slate-100 text-slate-500">
+                                                        <MoreHorizontal className="h-4 w-4" />
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end" className="bg-white border-slate-200 text-slate-700">
+                                                    <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer">View Profile</DropdownMenuItem>
+                                                    <DropdownMenuItem className="hover:bg-slate-50 cursor-pointer">Order History</DropdownMenuItem>
+                                                    <DropdownMenuItem className="text-red-600 hover:bg-slate-50 cursor-pointer">Block Account</DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
                 </CardContent>
             </Card>
         </div>

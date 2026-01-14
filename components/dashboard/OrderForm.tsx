@@ -83,7 +83,7 @@ export default function OrderForm() {
                         >
                             {i}
                         </div>
-                        <span className={`text-sm ${step >= i ? "font-medium" : "text-muted-foreground"}`}>
+                        <span className={`text-sm hidden sm:block ${step >= i ? "font-medium" : "text-muted-foreground"}`}>
                             {i === 1 ? "Paper Details" : i === 2 ? "Preferences" : "Review"}
                         </span>
                     </div>
