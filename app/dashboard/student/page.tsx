@@ -4,8 +4,33 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FileText, Clock, CheckCircle, AlertCircle, Plus } from "lucide-react";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import connectDB from "@/lib/db";
+import Order from "@/models/Order";
+import { redirect } from "next/navigation";
+import { format } from "date-fns";
 
-export default function StudentDashboard() {
+export default async function StudentDashboard() {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+        redirect("/auth/login");
+    }
+
+    await connectDB();
+
+    // Fetch orders for the logged-in user
+    const orders = await Order.find({ userId: session.user.id }).sort({ createdAt: -1 });
+
+    // Calculate stats
+    const totalOrders = orders.length;
+    const inProgress = orders.filter((o) => o.status === "In Progress").length;
+    const completed = orders.filter((o) => o.status === "Completed").length;
+    const pendingPayment = orders.filter((o) => o.status === "Pending Payment").length; // Adjust status string if needed based on actual usage
+
+    const recentOrders = orders.slice(0, 5);
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
@@ -26,8 +51,8 @@ export default function StudentDashboard() {
                         <FileText className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">12</div>
-                        <p className="text-xs text-muted-foreground">+2 from last month</p>
+                        <div className="text-2xl font-bold">{totalOrders}</div>
+                        <p className="text-xs text-muted-foreground">Lifetime orders</p>
                     </CardContent>
                 </Card>
 
@@ -38,8 +63,8 @@ export default function StudentDashboard() {
                         <Clock className="h-4 w-4 text-blue-500" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">3</div>
-                        <p className="text-xs text-muted-foreground">Due within 3 days</p>
+                        <div className="text-2xl font-bold">{inProgress}</div>
+                        <p className="text-xs text-muted-foreground">Active assignments</p>
                     </CardContent>
                 </Card>
 
@@ -50,8 +75,8 @@ export default function StudentDashboard() {
                         <CheckCircle className="h-4 w-4 text-green-500" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">8</div>
-                        <p className="text-xs text-muted-foreground">Avg. Grade: A</p>
+                        <div className="text-2xl font-bold">{completed}</div>
+                        <p className="text-xs text-muted-foreground">Successfully delivered</p>
                     </CardContent>
                 </Card>
 
@@ -62,7 +87,7 @@ export default function StudentDashboard() {
                         <AlertCircle className="h-4 w-4 text-orange-500" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">1</div>
+                        <div className="text-2xl font-bold">{pendingPayment}</div>
                         <p className="text-xs text-muted-foreground">Action required</p>
                     </CardContent>
                 </Card>
@@ -74,33 +99,43 @@ export default function StudentDashboard() {
                     <CardTitle>Recent Orders</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Order ID</TableHead>
-                                <TableHead>Subject</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>Deadline</TableHead>
-                                <TableHead className="text-right">Price</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell className="font-medium">ORD-001</TableCell>
-                                <TableCell>History Essay</TableCell>
-                                <TableCell><Badge variant="secondary" className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100 dark:bg-yellow-900 dark:text-yellow-100">In Progress</Badge></TableCell>
-                                <TableCell>Oct 24, 2025</TableCell>
-                                <TableCell className="text-right">$45.00</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell className="font-medium">ORD-002</TableCell>
-                                <TableCell>Nursing Case Study</TableCell>
-                                <TableCell><Badge variant="outline" className="text-green-600 border-green-200 bg-green-50 dark:bg-green-900/20 dark:border-green-800 dark:text-green-300">Completed</Badge></TableCell>
-                                <TableCell>Oct 20, 2025</TableCell>
-                                <TableCell className="text-right">$85.00</TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
+                    {recentOrders.length === 0 ? (
+                        <p className="text-muted-foreground text-sm">No recent orders found.</p>
+                    ) : (
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Order ID</TableHead>
+                                    <TableHead>Subject</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Deadline</TableHead>
+                                    <TableHead className="text-right">Price</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {recentOrders.map((order) => (
+                                    <TableRow key={order._id}>
+                                        <TableCell className="font-medium">#{order._id.toString().slice(-6).toUpperCase()}</TableCell>
+                                        <TableCell>{order.subject}</TableCell>
+                                        <TableCell>
+                                            <Badge variant={
+                                                order.status === "Completed" ? "outline" :
+                                                    order.status === "In Progress" ? "secondary" : "default"
+                                            } className={
+                                                order.status === "Completed" ? "text-green-600 border-green-200 bg-green-50 dark:bg-green-900/20 dark:border-green-800 dark:text-green-300" :
+                                                    order.status === "In Progress" ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-100 dark:bg-yellow-900 dark:text-yellow-100" :
+                                                        ""
+                                            }>
+                                                {order.status}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell>{order.deadline ? format(new Date(order.deadline), "MMM d, yyyy") : "N/A"}</TableCell>
+                                        <TableCell className="text-right">${order.price}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    )}
                 </CardContent>
             </Card>
         </div>

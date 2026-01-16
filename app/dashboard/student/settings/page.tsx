@@ -4,9 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { User } from "lucide-react";
+import { User, Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export default function SettingsPage() {
+    const { data: session, status } = useSession();
+
+    if (status === "loading") {
+        return (
+            <div className="flex h-[50vh] items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
@@ -32,11 +43,11 @@ export default function SettingsPage() {
                     <div className="grid gap-4 md:grid-cols-2">
                         <div className="space-y-2">
                             <Label htmlFor="name">Full Name</Label>
-                            <Input id="name" placeholder="Your name" />
+                            <Input id="name" placeholder="Your name" defaultValue={session?.user?.name || ""} />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="email" placeholder="Your email" disabled />
+                            <Input id="email" type="email" placeholder="Your email" disabled value={session?.user?.email || ""} />
                         </div>
                     </div>
 
